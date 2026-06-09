@@ -1,0 +1,33 @@
+
+! Rename dimension
+  ncrename -d old,new file.nc
+
+! Rename variable
+  ncrename -v old,new file.nc
+
+! Unpack (apply scale_factor and add_offset)
+  ncpdq -U infile.nc outfile.nc
+
+! Delete a dimension
+  ncwa -a old_dim ifile.nc ofile.nc
+
+! Merge (time series)
+  ncrcat  infile1.nc  infile2.nc  outfile.nc
+
+! Merge (two variables)
+  ncks -A infile1.nc infile2.nc
+
+! Convert type
+  ncap2 -s 'var1=float(var1);var2=double(var2)'  infile.nc  outfile.nc
+
+! Set 'time' to record dimension
+  ncks -O --mk_rec_dmn time  file1.nc file2.nc
+ 
+! Add attribute
+  ncatted -a units,var,a,c,"m s^-1" infile.nc
+
+! Delete variable
+  ncks -x -v varname infile.nc outfile.nc
+
+! Extract variable
+  ncks -C -v ta temp1.nc out.nc

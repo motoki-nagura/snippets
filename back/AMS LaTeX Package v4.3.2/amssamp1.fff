@@ -1,0 +1,29 @@
+\begin{figure}[t]
+\centerline{\includegraphics[width=\textwidth]{figone.pdf}}
+
+\caption{Climatology of $Bx (10^{-6} s^{-1}$, color) and $U^{200}$(m s$^-1$,
+contours) for (a) February and (b) August; $\overline{V'\theta'}^{850}$
+(K m s$^-1$, color) and
+$\overline{V'V'}^{200}$
+(m$^2$ s$^{-1}$, contours) for (c) February and (d) August; MR$^{z850}$
+(10$^{-3}$ m$^2$ s$-2$, color) and $U^{1000}$ (m s$^{-1}$, contours)
+for (e) February and (f) August;
+and SST (K, color) and $F_h$ [10$^5$ J m$^{-2}$ (6 h)$^{-1}$] for (g)
+February and (h) August. Red rectangles indicate the domain of EOF
+calculations.} \label{fig1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[p]
+\centerline{\includegraphics{FigTwo.pdf}}
+\caption{As in Fig.~10, but for (a),(b) September EOF1; (c),(d) September EOF2; (e),(f) October EOF1; (g),(h) October EOF2; and
+(i),(j) December EOF2.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+ \centerline{\includegraphics[width=19pc]{figure01.pdf}}
+\appendcaption{A1}{Here is an appendix, single column figure caption.}
+\end{figure}
+\efloatseparator
+ 

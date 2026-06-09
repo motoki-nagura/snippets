@@ -1,0 +1,77 @@
+\begin{table}
+\caption{Percentage of variance explained by the first four
+EOFs for the North Pacific Bx. The degree of separation between
+EOF1 and EOF2 and EOF2 and EOF3, based on the North et al.
+(1982) criterion, is indicated by good (GD) and not good or marginal
+(NG).}
+\begin{tabular*}{\hsize}{@{\extracolsep\fill}lcccccc@{}}
+\topline
+Month& EOF1& Split &EOF2& Split& EOF3& EOF4\\
+\midline
+\ Jan& 29& NG& 24& GD& 10& 5\\
+\ Feb& 39& GD& 20& GD& \phantom{1}7 &6\\
+\ Mar& 31& GD& 14& NG& 10& 6\\
+\ Apr& 23& GD& 14& NG& 10& 7\\
+\ May& 19& GD& 12& NG& 10& 7\\
+\ Jun& 19& GD& 12& NG& 10& 9\\
+\ Jul& 18& NG &13& NG& \phantom{1}9& 7\\
+\ Aug& 18& NG& 13& NG& 11& 9\\
+\ Sep &17& NG& 13& NG& 10& 8\\
+\ Oct &16& NG& 13& GD& \phantom{1}8& 7\\
+\ Nov &19 &NG& 16& NG& 11& 8\\
+\ Dec& 33& GD& 18& GD& 10& 6\\
+\botline
+\end{tabular*}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+\caption{Years selected for anomaly composites for the positive
+phase of $B^x$ EOF1.}
+\begin{tabular}{lc}
+\topline
+Month& Yr of positive phase\\
+\midline
+\ \ Jan& 1961, 1969, 1978, 1979, 1988, 1990, 1992, 1994\\
+\ \ Feb& 1964, 1977, 1978, 1980, 1983, 1986, 1988, 2000, 2001\\
+\ \ Mar& 1970, 1973, 1979, 1980, 1984, 1988, 2000\\
+\ \ Apr& 1959, 1961, 1962, 1963, 1968, 1972, 1983, 2002\\
+\ \ May& 1971, 1984, 1993, 1996, 2000\\
+\ \ Jun& 1981, 1983, 1984, 1993, 1998\\
+\ \ Jul& 1961, 1972, 1973, 1978, 1994, 2000\\
+\ \ Aug& 1967, 1970, 1973, 1978, 1994, 1999\\
+\ \ Sep& 1975, 1977, 1988, 1989, 1994, 1998, 1999\\
+\ \ Oct& 1962, 1977, 1998, 1999, 2001\\
+\ \ Nov& 1985, 1986, 1987, 1988, 1991, 1998\\
+\ \ Dec& 1957, 1968, 1972, 1978, 1979, 1990\\
+\botline
+\end{tabular}
+\end{table}
+\efloatseparator
+ 
+\begin{table}
+\centering
+\caption{Years selected for anomaly composites for the negative
+phase of $B^x$ EOF1.}
+\begin{tabular}{lc}
+\topline
+Month& Yr of negative phase\\
+\midline
+\ \ Jan&1962, 1963, 1968, 1974, 1991, 1996, 1997\\
+\ \ Feb& 1959, 1963, 1971, 1974, 1976, 1979, 1985, 1989, 1990, 1994\\
+\ \ Mar& 1963, 1968, 1972\\
+\ \ Apr& 1984, 1988, 1993, 1996, 1999, 2000\\
+\ \ May& 1961, 1963, 1983, 1987, 1997\\
+\ \ Jun& 1961, 1972, 1978, 1980, 1982, 1986\\
+\ \ Jul& 1964, 1974, 1980, 1983, 1986, 1988, 1993\\
+\ \ Aug& 1980, 1987, 1991, 1993, 1997\\
+\ \ Sep& 1959, 1963, 1969, 1983, 1985, 1993\\
+\ \ Oct& 1957, 1986, 1993, 1996, 1997\\
+\ \ Nov& 1958, 1968, 1970, 1982, 1997\\
+\ \ Dec& 1969, 1974, 1976, 1985, 1998, 1999, 2000, 2001\\
+\botline
+\end{tabular}
+\end{table}
+\efloatseparator
+ 

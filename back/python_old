@@ -1,0 +1,1304 @@
+#             Plain python
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+# --------------------------------------  Output to a text file
+
+texts = ['line 1', 'line2']
+
+with open('out.txt','w') as fa:
+    for text in texts:
+        fa.write(text)
+        fa.write('\n')
+
+# --------------------------------------  Substitute to variables
+
+var1, var2, var3 = 1., 2., 3.
+
+# --------------------------------------  Sort one array by another array
+
+inds = arr1.argsort()
+arr1_sorted = arr1[inds]
+arr2_sorted = arr2[inds,:]
+
+# -------------------------------------   Last element
+
+some_list[-1]          #   last element
+some_list[-n]          #   n-th to last element
+
+# --------------------------------------  read user defined functions
+
+import sys
+sys.path.insert(0,'/S/data01/G5018/c0538/code/sub/sub')
+from subs import fft_spectrum
+
+# --------------------------------------  Broadcasting
+
+var_2d = np.ones((len(z),len(x))) * var_1d[:,np.newaxis]  #   var_1d[{z}] to var_2d[{z},{x}]
+
+# --------------------------------------  Remove duplicated elements
+
+var_out = list( {d:None for d in var}.keys() )
+
+test_list = list(set(test_list))
+
+# --------------------------------------  List comprehension
+
+tmp = ['xx_{}'.format(x) for x in range(1,5)]
+#  ['xx_1', 'xx_2', 'xx_3', 'xx_4']
+
+# --------------------------------------  Print format
+
+print(f'scalar = {scalar:6.2f} m s^-1')  #  for scalar
+
+print("array = ["+", ".join(f"{v:.2f}" for v in array[:])+"]")    #   for array
+
+from decimal import Decimal
+'%.2e' % Decimal('40800000000.00000000000000')
+
+print('this is a tuple {0}'.format(thetuple))
+
+# --------------------------------------  Print array in format
+
+# To print the data in column :
+
+for data in x:
+    print '{:9.3f}'.format(data)
+
+# To print the data in row : (don't forget import sys)
+
+for data in x:
+    sys.stdout.write('{:9.3f}'.format(data))
+
+# -------------------------------------- 5e-6 ---> "5 x 10^-6"
+
+val = 5e-6
+m, e = f"{val:.2e}".split("e")
+string = rf"{float(m)} $\times$ 10$^{{{int(e)}}}$"
+
+# --------------------------------------  Create or append/add to an array
+
+A_acc = None
+
+if A_acc is None:
+    A_acc = A   # A doesn't exist yet, create it
+else:
+    A_acc = np.append(A_acc, A)   # Try to append to existing array A
+    A_acc += A                    # Or add A to A_acc
+
+# --------------------------------------   for loop
+
+for i in range(nx):
+    (do what you want)
+
+# --------------------------------------  enumerate arrays
+for i, arr in enumerate([A, B]):
+    #   arr = A for i = 0
+    #   arr = B for i = 1
+
+# --------------------------------------  enumerate a pair of arrays
+for i, (arr1, arr2) in enumerate(zip((A,B),(C,D))):
+    #  arr1 = A and arr2 = C for i = 0
+    #  arr1 = B and arr2 = D for i = 0
+
+# --------------------------------------  zip
+for v1, v2, v3  in zip((A, B), (C, D), (E,F)):
+    #  v1,v2,v3 = A,C,E for the first loop,
+    #  v1,v2,v3 = B,D,F for the second
+
+# --------------------------------------  enumerate an zip
+
+for i, (a, b) in enumerate(zip(A, B)):
+    print(i, a, b)
+    #     "a" and "b" are the elements of A and B at position i.
+    #     zip(A, B) produces pairs (A[0], B[0]), (A[1], B[1]), ...
+
+# --------------------------------------  Raise error and stop
+
+raise ValueError("Invalid input!")
+
+# --------------------------------------  Typical script structure
+#!/usr/bin/env python3
+"""
+Module description.
+
+Explain what the script does.
+"""
+
+# 1. Standard library imports
+import sys
+import os
+
+# 2. Third-party imports
+# import requests
+
+# 3. Local application imports
+# from mymodule import something
+
+# 4. Constants
+DEFAULT_PATH = "/tmp/data"
+
+# 5. Classes (optional)
+class ExampleProcessor:
+    def __init__(self, path):
+        self.path = path
+
+    def process(self):
+        print(f"Processing data in {self.path}")
+
+# 6. Functions
+def load_data(path):
+    """Load data from a path."""
+    print(f"Loading data from {path}")
+    return []
+
+def main():
+    """Main program logic."""
+    path = DEFAULT_PATH
+    data = load_data(path)
+
+    processor = ExampleProcessor(path)
+    processor.process()
+
+    print("Finished")
+
+# 7. Script entry point
+if __name__ == "__main__":
+    sys.exit(main())
+
+# --------------------------------------  Share variables between functions (class)
+
+class test_class:
+    def __init__(self,p1):
+        self.p1 = p1
+
+    def func(self,p2):
+        result = self.p1 + p2
+        return result
+
+p1, p2 = 10., 100.
+test1 = test_class(p1)     #  set p1
+result = test1.func(p2)    #  compute p1 + p2 (p1 is set beforehand)
+
+# -------------------------------------   Array of class
+
+class test_class:
+    def __init__(self,p1,p2):
+        self.p1 = p1
+        self.p2 = p2
+
+class array_class:
+    def __init__(self):
+        self.list1 = []
+
+array_class = array_class()
+
+array_class.list1.append( test_class( 10.,  20.) )
+array_class.list1.append( test_class(100., 200.) )
+
+for tmp in array_class.list1:
+    print(tmp.p1, tmp.p2)
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Numpy
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import numpy as np
+
+# --------------------------------------  Create an array
+
+x = [10., 20.00, 30., 40.0, 50.000, 60.00, 70., 80.00, 90.000]
+
+y2 = np.array([[0., 0.7, 1., 0.7, 0., -0.7, -1., -0.7, 0.],  \
+               [2., 2.7, 3., 2.7, 2.,  1.3,  1.,  1.3, 2.],  \
+               [4., 4.7, 5., 4.7, 4.,  3.3,  3.,  3.3, 4.]], \
+               'f')
+
+x = np.arange(2,3,0.1,dtype=float)
+# [2.  2.1 2.2 2.3 2.4 2.5 2.6 2.7 2.8 2.9]
+
+x = np.linspace(1., 4., 6)
+# [1.  1.6 2.2 2.8 3.4 4. ]
+
+x = np.zeros((2,3))
+# [[0. 0. 0.]
+#  [0. 0. 0.]]
+
+
+>>> a = numpy.arange(1,8,1)
+>>> print(a)
+[1 2 3 4 5 6 7]
+>>> b = a > 3
+>>> print(b)
+[False False False  True  True  True  True]
+>>> print(a[b])
+[4 5 6 7]
+
+# --------------------------------------   Find index using conditions
+
+k = np.argwhere((lev >= 200.) & (lev <= 800.))[:,0]
+
+i = np.squeeze( np.nonzero( ~np.isnan(vvel[:]) ) )    #   1D array
+
+# --------------------------------------   Multiply 2D array with 1D array
+
+a = numpy.array([[2,3,2],[5,6,1]])
+b = numpy.array([3,5])
+c = a * b[:, None]
+
+# --------------------------------------   logical_or for many conditions
+
+np.logical_or.reduce((x, y, z))
+
+# --------------------------------------   Define NaN arrays at once
+
+arr1,arr2,arr3 = np.ones((3,len(time),len(lat),len(lon))) *np.nan
+
+# --------------------------------------   Replace zero with nan
+
+var[var == 0.] = np.nan
+
+# --------------------------------------   Multiply 2D array by 1D array
+
+a = numpy.array([[2,3,2],[5,6,1]])
+b = numpy.array([3,5])
+c = a * b[:, np.newaxis]
+
+# --------------------------------------   Running average
+
+data = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+#
+window_size = 3
+weights = np.ones(window_size) / window_size
+running_avg = np.convolve(data, weights, mode='valid')
+#
+print("Running average:", running_avg)
+#  Running average: [2. 3. 4. 5. 6. 7. 8. 9.]
+
+# --------------------------------------   Gradient
+
+f = np.array([1., 2., 4.0, 7.0, 11., 16.], dtype=float)
+x = np.array([0., 1., 1.5, 3.5,  4.,  6.], dtype=float)
+np.gradient(f, x)
+# Result: array([1. ,  3. ,  3.5,  6.7,  6.9,  2.5])
+
+# --------------------------------------   Unwrap the phase
+
+phase_unwrapped = np.unwrap(phase, period=360.)
+
+# --------------------------------------   datetime64
+
+reference_date = np.datetime64('2010-01-01')
+time_in = np.array(time[0])                     #   I assume 'time' is read by xarray
+dt = np.timedelta64(time_in-reference_date,'h')
+
+print(np.datetime64(time,'D'))                  #   omit hour/minute/second
+
+# --------------------------------------   Box averaging
+
+dx = 5                       #  Average every 5 data in lon for var[{time},{lev},{lon}]
+nx1 = (len(lon) //dx) *dx
+tmp1 = np.array(var[:,:,:nx1]).reshape(len(time),len(lat),-1,dx)  #   First axis
+var_avg = np.nanmean(tmp1,axis=3)
+
+dy = 5                       #  average every 5 data in lat for var[{time},{lev},{lon}]
+ny1 = (len(lat) //dy) *dy
+tmp1 = np.array(var[:,:ny1,:]).reshape(len(time),-1,dy,len(lon))  #   Second axis
+var_avg = np.nanmean(tmp1,axis=3)
+
+var_avg = var[:nx1].reshape(-1, dx).mean(axis=1) # For 1D array
+
+# --------------------------------------   Fill NaN values by linear interpolation
+
+inan = np.isnan(var)                                     #  logical array
+var[inan] = np.interp(lon[inan], lon[~inan], var[~inan])
+
+# --------------------------------------   Bootstrap method
+
+nsamples = 5000                                          #  Number of samples
+sample_size = 100                                        #  Number of data in one sample
+
+np.random.seed()
+ibs = np.random.randint(0,high=sample_size,size=sample_size*nsamples)
+                                                         #  Create random series, 0 < ibs < sample_size-1
+
+result = np.zeros(nsamples)                              #  Iterate computation for all the samples
+for i in range(nsamples):
+    ibs1 = np.sort( ibs[i*sample_size:(i+1)*sample_size] )
+    result[i] = some_computation(input_data[ibs1])
+
+hist,bins = np.histogram(ibs,np.arange(sample_size+1))   #  Check 1: Is ibs random?
+print('hist = ',hist)
+print('bins = ',bins)
+
+avg, std = np.zeros(nsamples), np.zeros(nsamples)        #  Check 2: Are average and standard
+for i in range(nsamples):                                #                     deviation converged ?
+    if i == 0:
+        avg[i], std[i] = np.nan, np.nan
+    else:
+        avg[i], std[i] = np.mean(result[0:i]), np.std(result[0:i])
+
+# --------------------------------------   Jackknife method (delete-1)
+
+sample_size = len(input_data)                            #  Number of data in one sample
+
+result = np.zeros(sample_size)                           #  Iterate computation for all the samples
+for i in range(nsamples):
+    tmp_sample = np.delete(input_data,i)
+    result[i] = some_computation(tmp_sample)
+
+avg, std = np.mean(result), np.std(result)               #  Average and standard deviation
+
+# --------------------------------------   Definite integral from data
+
+def definite_integral(xcoord,xstrt,xend,yvar):
+#   Integral yvar from xstrt to xend
+    import numpy as np
+    from scipy.interpolate import interp1d
+
+    xcoord, yvar = np.array(xcoord), np.array(yvar)
+
+    xcoord1 = np.sort( np.append( xcoord, [xstrt,xend] ) )                 #  Add xstrt and xend to xcoord
+    func_interp = interp1d( xcoord, yvar )                                 #  linear interpolation
+    yvar1 = func_interp(xcoord1)
+    i = np.argwhere( np.logical_and( xcoord1 >= xstrt, xcoord1 <= xend ))[:,0]#  xstrt <= xcoord <= xend
+    result = np.trapz( yvar1[i], xcoord1[i] )                              #  integrate from xstrt to xend
+
+    return result
+
+# --------------------------------------   Linear interpolation
+#         y[:] includes NaN
+
+x = np.arange(len(y))
+x_intpl = x[  np.isnan(y) ]   #   x to be interpolated
+x_avail = x[ ~np.isnan(y) ]   #   x for data
+y_avail = y[ ~np.isnan(y) ]   #   data
+
+y = np.interp(x_intpl, x_avail,y_avail, left=np.nan, right=np.nan)
+
+# --------------------------------------   Timedelta
+
+np.timedelta64(10,'D')
+
+# --------------------------------------   Convert numpy array to a string array
+
+a_str = np.char.mod('%d', np.arange(70,91,10))
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Matplotlib
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+plt.rcParams['font.family'] = "FreeSerif"                       #  Change global font type
+                                                                #     call it before  plt.subplots
+
+plt.rcParams['font.size'] = 12                                  #  Change global font size
+                                                                #     call it before  plt.subplots
+
+plt.rcParams['image.cmap'] = 'seismic'                          #  Set global color map
+
+plt.rcParams['lines.linewidth'] = 2                             #  Set global line properties
+plt.rcParams['lines.color'] = 'k'
+plt.rcParams['lines.linestyle'] = ':'
+
+from cycler import cycler
+mpl.rcParams['axes.prop_cycle'] = cycler(color=['k','r','b','g'])
+                                                                #  Set colors for line
+
+fig, axs = plt.subplots(nrows=2, ncols=3, figsize=(8,8))
+#      axs[0,1] refers to the first panel from the top and the second from the left
+#      axs[{row #}, {column#}]
+
+# --------------------- Panels
+
+ax1 = fig.add_axes([0.15, 0.6, 0.7, 0.3])  #  add "axis" (= panel)
+                                           #    [left, bottom, width, height]
+
+fig.delaxes(axs[1])  #  delete "axis"
+
+gs = fig.add_gridspec(nrows=3,ncols=2,height_ratios=[1., 1., 2.])  # change ratio
+
+for i in range(3):
+    for j in range(2):
+        fig.delaxes(axs[i,j])
+        axs[i,j] = fig.add_subplot(gs[i,j])
+
+# ----------------- Close PDF page
+
+plt.tight_layout()
+plt.savefig('fig.pdf')
+
+# ----------------- Multiple PDF pages
+
+from matplotlib.backends.backend_pdf import PdfPages
+
+def new_page(nrows,ncols):
+    global iplot
+    iplot = 0
+    fig, axs = plt.subplots(nrows=nrows, ncols=ncols, figsize=(8,8))
+    subplots = axs.flatten()     #   row major
+#    subplots = axs.T.flatten()   #   column major
+    return (fig, subplots)
+
+with PdfPages('fig.pdf') as pdf:
+
+    fig, subplots = new_page(nrows, ncols)
+
+    for i in range(number_of_iterations):
+        subplots[iplot].plot(some_x_values, some_y_values)
+        iplot += 1
+
+        if iplot == nrows*ncols:
+            plt.tight_layout()
+            pdf.savefig()
+            plt.close(fig)
+            fig, subplots = new_page(nrows, ncols)
+
+    plt.tight_layout()
+    pdf.savefig()
+    plt.close(fig)
+
+# ----------------- Using zip
+
+formatters = [
+    'AutoDateFormatter(ax.xaxis.get_major_locator())',
+    'ConciseDateFormatter(ax.xaxis.get_major_locator())',
+    'DateFormatter("%b %Y")',
+]
+
+fig, axs = plt.subplots(3,1)
+
+for ax, fmt in zip(axs, formatters):
+    plot_axis(ax, formatter=fmt)
+
+# ----------------- For a part of panels
+
+for axs1 in axs[[0,1],[1,2]]:
+    axs1.axvline(x=0.,c='k',lw=0.5)
+
+for ax in [axs[0],axs[3]]:
+    ax.set_xlim([0.,1.])
+
+# ----------------- For all panels
+
+for axs1 in axs.flat:
+    axs1.invert_yaxis()
+
+# --------------------------------------------
+# --------------------- Contour Fill
+
+cs = axs[0].contourf(x,y,data,levels=np.arange(-1.,1.1,0.1)*0.1,cmap='seismic',extend='both')
+#  cmap = 'seismic', 'bwr', 'jet'
+
+# --------------------     Color bar
+
+cbar = plt.colorbar(cs,ax=axs[0], location='bottom', aspect=40, pad=0.07, shrink=0.8)
+cbar.set_label('N$^2$', loc='top')
+cbar.set_ticks(np.arange(0,6)*20) # 0, 20, ..., 100
+
+# or
+
+cbaxes = fig.add_axes([0.2, 0.05, 0.6, 0.015])  #  explicitly specify the colorbar position
+cbar = plt.colorbar(cs, ax=axs, cax=cbaxes)
+
+plt.rc('axes', labelsize=10)  #  change font size for the color bar
+
+# ---------------------     Log scale
+
+from matplotlib import ticker
+
+lvls = 10**np.arange(-7., -5.1, 0.1)
+
+axs[0].contourf(x,y,data,levels=lvls,locator=ticker.LogLocator())
+
+# --------------------      Add a separate color bar
+
+import matplotlib as mpl
+
+axs1 = fig.add_axes([0.58, 0.25, 0.37, 0.02])
+
+cmap = mpl.cm.jet
+norm = mpl.colors.Normalize(vmin=np.min(lvls), vmax=np.max(lvls))
+
+fig.colorbar(mpl.cm.ScalarMappable(norm=norm, cmap=cmap),
+             cax=axs1, orientation='horizontal', \
+             label=r'N$^2$ ('+ttl_scale+' s$^{-2}$)')
+
+# ----------------- Contour Lines
+
+CS = axs[0].contour(data, colors='k', negative_linestyles='dotted')
+axs[0].clabel(CS,CS.levels, inline=True, fontsize=10)
+
+# ----------------- Pixel
+
+cs0 = axs[0,0].imshow(var, cmap='jet', vmin=0., vmax=1., \
+                      extent=(np.min(lon),np.max(lon),np.min(lev),np.max(lev)), \
+                      aspect='auto')
+#   var = var[{lev},{lon}]
+
+# ----------------- Line Plot
+
+axs[1].plot(time,var, 'k-', lw=3.0)
+axs[1].plot(time,var, ':r')       #  overplot
+
+axs[1].vlines(xval, ymin, ymax)   #  vertical line
+axs[1].hlines(yval, xmin, xmax)   #  horizontal line
+
+axs[1].axvline(x=0.5)             #  vertical line from the bottom to the top
+axs[1].axhline(y=1.2)             #  horizontal line from the bottom to the top
+
+# ----------------- Vector Plots
+
+Q = axs[0].quiver(lon,lat, uvel,vvel, scale=1e2)
+
+# --------------------       Vector scale
+
+qk = axs[0].quiverkey(Q, 0.87,0.02, 10., '10 cm s$^{-1}$', labelpos='E', coordinates='figure')
+
+# --------------------       Error bar
+
+axs[0,0].errorbar(x0,y0, yerr=[[errl],[errh]],fmt='o',c='k',elinewidth=2.0, capsize=3)
+
+#  Error bar is from y0-errl to y0+errh. Dot is marked at y0. Data coordinate is used.
+
+# --------------------       Create a rectangle: (x, y), width, height
+rect = patches.Rectangle(
+    (1, 2),        # bottom-left corner
+    3,             # width
+    4,             # height
+    linewidth=2,
+    edgecolor='black',
+    facecolor='none'
+)
+ax.add_patch(rect)
+
+# ----------------- Axis/Title Settings  
+
+axs[0].set_title('data at the first level', fontsize=12)        #  title
+axs[0].set(xlabel='X', ylabel='Y')                              #  x and y axis labels
+axs[0].set_xlim([100.,150.])                                    #  x range
+axs[0].set_ylim([-10.,10.])                                     #  y range
+axs[0].invert_yaxis()
+axs[0].set_xscale('log')
+axs[0].xaxis.set_ticks(np.arange(start, end, stepsize))         #  control axis labels
+axs[0].ticklabel_format(style='sci', axis='x', scilimits=(0,0)) #  tick label format (like 1.2 x 10^{-1})
+axs[0].yaxis.set_ticks_position('both')                         #  show ticks on both sides
+axs[0].set_xticks(np.arange(0,12,2))                            #  set x tick points
+axs[0].set_xticklabels(['Jan','Feb','Mar','Apr','May','Jun',\
+                        'Jul','Aug','Sep','Oct','Nov','Dec'])   #  set x tick labels
+axs[0].get_xaxis().set_major_formatter(matplotlib.ticker.ScalarFormatter())
+                                                                #  ncecessary to add ticks to log scale
+axs[0].title.set_fontsize(15)                                   #  change title font size
+axs[0].xaxis.label.set_fontsize(12)                             #  change label font size
+axs[0].xaxis.set_tick_params(labelsize=10)                      #  change tick font size
+axs[0].set_ylabel('Depth (m)', fontsize=8)                      #  change axis label font size
+axs[0].text(0.05, 0.95, '(a)', transform=ax.transAxes,fontsize=16, fontweight='bold', va='top') #  add label
+
+axs[0].tick_params(right=True,top=True,which='both')            #  show tickes on both sides
+
+axs[0].text(100.,40.,'some label')                              #  add text in data coordinates
+plt.gcf().text(0.7, 0.15, text, fontsize=12)                    #  add text in figure coordinates
+plt.figtext(0.60, 0.1, 'XXX', fontsize=14)                      #  add text in figure coordinates
+
+import datetime                                                 #  set time range
+axs[0].set_xlim([datetime.date(2014,1,26), datetime.date(2014,2,1)])
+axs[0].set_xlim([np.datetime64('2014-01-26'), \
+                 np.datetime64('2014-02-01') + np.timedelta64(100,'D')])
+
+import matplotlib.dates as dates
+axs[ipanel].xaxis.set_major_locator(dates.MonthLocator(interval=2))  #  Show ticks very two months
+axs[ipanel].xaxis.set_major_locator(dates.YearLocator(1))            #  Show ticks every year
+axs[ipanel].xaxis.set_major_locator(dates.YearLocator(base=5))       #  Show ticks every five years
+
+                                                                #  Format dates on axis
+import matplotlib.dates as mdates
+myFmt = mdates.DateFormatter('%m/%d')
+ax.xaxis.set_major_formatter(myFmt)
+                                                                #   Degree symbol
+degE = '\N{degree sign}E'
+                                                                #   Longitude labels using cartopy
+import cartopy.mpl.ticker as cticker
+lon_formatter = cticker.LongitudeFormatter()
+ax.set_xticks(np.arange(30,180,30))
+ax.xaxis.set_major_formatter(lon_formatter)
+                                                                #   Longitude labels by hand
+LonTicks = np.arange(70,91,10)
+LonTickNames = np.char.mod('%d', LonTicks)
+LonTickNames = [s + '\N{degree sign}E' for s in LonTickNames]
+                                                                #   5 minor ticks per 1 major tick
+from matplotlib.ticker import AutoMinorLocator
+axs[0].xaxis.set_minor_locator(AutoMinorLocator(5))
+
+#---------------------------   Secondary Axis
+
+def f2T(x):
+    return 1./x
+def T2f(x):
+    return 1./x
+
+xax2 = axs[0].secondary_xaxis('top', functions=(f2T,T2f))
+xax2.set_xlabel('Period (day)')
+xax2.xaxis.set_ticks([180., 57.])
+xax2.xaxis.set_ticklabels(['180', '57'])
+
+#--------------------------   Generate ['(a)','(b)', ...]
+
+import string
+txt_labels = [f"({c})" for c in string.ascii_lowercase]
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             NetCDF4
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import netCDF4
+import numpy as np
+
+#             read
+
+f1 = netCDF4.Dataset('./foo.nc', 'r')
+var = np.copy(f1.variables['var'])
+f1.close()
+
+#             write
+
+f1 = netCDF4.Dataset('myfile.nc','w',format='NETCDF4')
+
+f1.createDimension('lon', nx)
+f1.createDimension('lat', ny)
+f1.createDimension('time',nt)
+
+lon1  = f1.createVariable('lon','float32',('lon'))
+lat1  = f1.createVariable('lat','float32',('lat'))
+time1 = f1.createVariable('time','float64',('time'))
+var1  = f1.createVariable('myvar','float32',('time','lat','lon'),fill_value=np.float32(-1e10))
+
+setattr(f1,'Description','This sets the global attribute')
+
+time1.setncattr('units','Days since 2000-01-01')
+var1.setncattr('units','mm')
+
+lon1[:]  = lon
+lat1[:]  = lat
+time1[:] = date2num(datesout,unout)
+var1[:]  = dataout
+
+f1.close()
+
+#             Convert netCDF4 time to numpy.datetime64
+
+                      # Convert numerical time to cftime objects
+cftime_times = netCDF4.num2date(time[:], time.units, calendar=time.calendar)
+
+                      # Convert cftime objects to numpy.datetime64
+numpy_datetime_array = np.array(cftime_times, dtype='datetime64[ns]')
+
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Scipy
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+# --------------------------------------  Running mean
+
+from scipy.ndimage import uniform_filter1d
+
+n_rm = 13
+
+var_sm = uniform_filter1d(var,size=n_rm,axis=0)
+
+l0 = np.floor(n_rm/2).astype(int)
+l1 = np.shape(var)[0] - l0
+
+vvel_sm[ 0:l0,:] = np.nan                               #  cut the ends
+vvel_sm[l1:nt,:] = np.nan
+
+# --------------------------------------  Detrend
+
+from scipy import signal
+
+var = var.copy(data=signal.detrend(var))
+
+# --------------------------------------  1D interpolation
+
+from scipy.interpolate import interp1d
+x = np.linspace(0, 10, num=11, endpoint=True)
+y = np.cos(-x**2/9.0)
+
+f = interp1d(x, y)                       #  linear interpolation
+f = interp1d(x, y, fill_value=(y[0],y[-1]), bounds_error=False)
+                                         #  Linear interpolation with extrapolation using the end value
+f2 = interp1d(x, y, kind='cubic')        #  cubic interpolation
+
+xnew = np.linspace(0, 10, num=41, endpoint=True)
+import matplotlib.pyplot as plt
+plt.plot(x, y, 'o', xnew, f(xnew), '-', xnew, f2(xnew), '--')
+plt.legend(['data', 'linear', 'cubic'], loc='best')
+plt.show()
+
+# --------------------------------------  Regular grid interpolation
+
+from scipy.interpolate import RegularGridInterpolator
+
+#    invar = [{len(y)}, {len(x)}],  Must be an numpy array
+#    y, x, data must be numpy arrays
+
+interp = RegularGridInterpolator( (y,x), data )
+
+y1g,x1g = np.meshgrid(y1,x1, indexing='ij')
+interpolated_data = interp( (y1g,x1g) )
+
+# --------------------------------------  2D bilinear interpolation (nearly obsolete)
+
+from scipy import interpolate
+
+# Construct a 2-D grid and interpolate on it:
+x = np.arange(-5.01, 5.01, 0.25)
+y = np.arange(-5.01, 5.01, 0.25)
+xx, yy = np.meshgrid(x, y)
+z = np.sin(xx**2+yy**2)
+f = interpolate.interp2d(x, y, z, kind='cubic')
+# Now use the obtained interpolation function and plot the result:
+xnew = np.arange(-5.01, 5.01, 1e-2)
+ynew = np.arange(-5.01, 5.01, 1e-2)
+znew = f(xnew, ynew)
+plt.plot(x, z[0, :], 'ro-', xnew, znew[0, :], 'b-')
+plt.show()
+
+# --------------------------------------  Correlation analysis
+
+from scipy.stats import pearsonr, t
+import sys
+sys.path.insert(0,'/S/data01/G4006/y0330/code/sub')
+from subs import edof_cor
+
+alpha = 0.95
+
+[corr, pval] = pearsonr(x,y)
+
+edof = edof_cor (x,y)  #  x & y should not include any nan or missing value
+
+t1 = t.ppf( (1.-(1.-alpha)/2.), edof-2., loc=0,scale=1)
+sig_cor = np.sqrt( t1**2 /((edof-2.)+t1**2) )
+
+# --------------------------------------  Lead-lag correlation analysis
+
+lag = np.arange(-30,30,5,dtype=int)
+
+for l in range(len(lag)):
+    lx0,lx1 = np.max([0,0-lag[l]]), np.min([nt,nt-lag[l]])
+    ly0,ly1 = np.max([0,0+lag[l]]), np.min([nt,nt+lag[l]])
+    tmpx, tmpy = varx[lx0:lx1], vary[ly0:ly1]
+    [corr, pvel] = pearsonr(tmpx,tmpy)
+
+    print(f'lag[l]={lag[l]:3d}; lx0:lx1={lx0:3d}:{lx1:3d}; ly0:ly1={ly0:3d}:{ly1:3d}')
+    #    negative lag = tmpy leads
+    #    positive lag = tmpx leads
+
+# --------------------------------------  Function fitting
+
+from scipy.optimize import curve_fit
+
+def func(x, a, b, c):
+    return a * np.exp(-1. *x /b) + c
+
+initial_guess = [10., 1000., 1.]   #  Initial guess is very important
+popt, pcov = curve_fit(func, xdata, ydata, p0=initial_data)
+estimated = func(xdata, *popt)     #  the resulting line
+print('estimated a, b, c = ',popt)
+
+# --------------------------------------  Power spectrum (peridogram)
+
+from scipy import signal
+
+freq, Pxx_den = signal.periodogram(input_time_series, sampling_frequency)
+
+# --------------------------------------  Power spectrum (welch)
+
+from scipy import signal
+
+f, Pxx_den = signal.welch(x, fs, nperseg=nperseg)
+#    x       :   Smaple time series
+#    fs      :   Sampling frequency
+#    nperseg :   Length of each segment
+
+#  EDOF = 2. *(np.floor( len(x) /int(nperseg/2) )-1)
+#        Each estimate of the spectrum has 2 d.o.f. Total period divided by half
+#          period minus 1 is the number of estimates.
+#
+#  If the Hanning window is used, EDOF = EDOF * (8/3) (Thomson and Emery 2014, Table 5.5, p. 479)
+
+# --------------------------------------  Smoothing (band averaging)
+
+from scipy.ndimage import uniform_filter1d
+
+for i in range(0,5):                               #    5 times
+    var = uniform_filter1d(var, size=10, axis=0)   #   10 grid points
+
+# --------------------------------------  Filtering
+
+from scipy import signal
+
+order = 5
+
+sos = signal.butter(order, [lowcut, highcut], fs=fs, btype='band', output='sos')
+var_out = signal.sosfiltfilt(sos, var_in)
+
+# --------------------------------------  NetCDF Output
+
+from scipy.io import netcdf_file
+
+f = netcdf_file('out.nc', 'w')
+f.createDimension('ycoord', len(ycoord))
+f.createDimension('xcoord', len(xcrood))
+ycoord_1  = f.createVariable('ycoord', ycoord.dtype, ('ycoord',))
+xcoord_1  = f.createVariable('xcoord',    'float64', ('xcoord',))
+var_1     = f.createVariable('var',       var.dtype, ('ycoord','xcoord',))
+ycoord_1[:] = ycoord
+xcoord_1[:] = xcoord
+var_1[:]    = var
+f.close()
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Pandas
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import pandas as pd
+
+# -------------------------------------  Create timestamp
+
+time = pd.Timestamp('2000-01-01')
+time = pd.Timestamp(year=2017, month=1, day=1, hour=12)
+
+# -------------------------------------  Create a series timestamp at mid month
+
+times = pd.date_range("2000-01-01", periods=12,freq='MS') + pd.Timedelta(days=14)
+#    from 2000-01-01, 12 grids, every month, starts from Jan 15th
+
+times = pd.date_range(start="2000-01-01 12:00:00", end='2010-01-01 12:00:00',freq='D')
+#    default freq='D'
+
+# -------------------------------------  Convert everything (datetime64[ns]) to pd.Timestamp
+
+time_converted = pd.to_datetime(time_input)
+
+# -------------------------------------  Convert xarray timestamp to real numpy array
+
+time = xr.open_dataset('infile.nc')['time']
+time = pd.to_datetime(time) - pd.Timestamp(2000,1,1)   #  convert time to days since 2000-1-1
+time1 = time.astype('timedelta64[h]')                  #  in hours (use "D" for days, "s' for seconds)
+time2 = np.array(time1)                                #  convert to numpy array
+
+# -------------------------------------  Convert timestamp read by netCDF4 to pandas
+
+time = f1.variables['time']
+time_ref = pd.to_datetime(time.units, format='Days since %Y-%m-%d %H:%M:%S')   #  reference time
+time1 = time_ref + pd.to_timedelta(np.array(time), time.units[0])  #  pandas time format
+
+# -------------------------------------  Get date
+
+iyear = time.year     #  'time' is pd timestamp
+
+# -------------------------------------  datetime, formatted output
+
+text = time.strftime('%Y/%m/%d')
+
+# -------------------------------------  datetime, number of days between two dates
+
+result = (tend - tstrt).days
+
+# -------------------------------------  reads in using xarray and convert pandas time
+
+time = xr.open_dataset(infile)['time']
+time = pd.to_datetime(np.array(time))
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Xarray
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import xarray as xr
+
+# --------------------------------------  Read in
+
+var = xr.open_dataset(infile)['var'].sel(lon=slice(x0,x1))
+
+# --------------------------------------  Convert time to days
+
+time = xr.open_dataset(infile)['time']
+time = np.array(time)
+time = (time - time[0]).astype('timedelta64[D]')
+time = time.astype(float)
+
+# --------------------------------------  Write out
+
+ds.to_netcdf('./mask.nc')
+
+# --------------------------------------  Convert a numpy array to an xarray
+
+var_out = xr.DataArray(data=var, coords=[time, lat, lon], dims=['time','lat', 'lon'])
+                                   #   append coordinates
+
+# --------------------------------------  Slice
+
+var_sliced = var.sel(lon=slice(90.,100.))
+
+var_sliced = var.sel(time=slice('2000-06-01', '2000-06-10'))
+
+# --------------------------------------  Make a xarray dataset
+
+ds = xr.Dataset({'var': var_out})  #   copy to a dataset
+
+ds = xr.Dataset(
+     data_vars=dict(
+         temperature=(['lon', 'lat', 'time'], temperature),
+         precipitation=(['lat', 'lat', 'time'], precipitation),
+     ),
+     coords=dict( lon=lon, lat=lat, time=time,
+     ),
+     attrs=dict(description='Weather related data.'),
+ )
+
+ds.lon.attrs['units'] = 'degrees_east'
+ds.lat.attrs['units'] = 'degrees_north'
+ds.time.attrs['units'] = 'days since 1990/1/1'
+
+# --------------------------------------  Coordinate
+
+time = var.time
+
+# --------------------------------------  Common period
+
+time_strt = max([var1.time[ 0], var2.time[ 0]])
+time_end  = min([var1.time[-1], var2.time[-1]])
+
+var1_common_period = var1.sel(time=slice(time_strt, time_end))
+var2_common_period = var2.sel(time=slice(time_strt, time_end))
+
+# --------------------------------------  Subtract monthly climatology
+
+climatology = ds.groupby('time.month').mean('time')
+anomalies = ds.groupby('time.month') - climatology
+
+# --------------------------------------  Running mean
+
+var = var.rolling(time=13, center=True).mean()
+var = var[~np.isnan(var)]  #  cut the ends
+
+# --------------------------------------  Weighted running mean
+
+weight = xr.DataArray([0.25, 0.5, 0.25], dims=['window'])
+var = var.rolling(lon=3, center=True).construct('window').dot(weight)
+#             "3" is window width
+
+# --------------------------------------  Remove nan after running mean
+
+var = var[~np.isnan(var).any(axis=(1,2,)),:,:]   #  var = (T,Y,X)
+
+# -------------------------------------   Derivative
+
+var = varin.differentiate('lat')
+
+# --------------------------------------  Transpose array
+
+var_transposed = var.transpose('x','y')
+
+# --------------------------------------  Remove dimension
+
+var = var.squeeze(drop=True)
+
+# --------------------------------------  Find the common period
+
+time1 = xr.open_dataset(infile1)['time']
+time2 = xr.open_dataset(infile2)['time']
+
+tmp = np.zeros(2)
+tmp[:] = np.min(time1), np.min(time2)
+t_strt = pd.to_datetime( np.max(tmp) )
+
+tmp = np.zeros(2)
+tmp[:] = np.max(time1), np.max(time2)
+t_end = pd.to_datetime( np.min(tmp) )
+
+print('t_strt = ',t_strt,',  t_end = ',t_end)
+
+# --------------------------------------  interpolation
+
+var_intp = var.interp(lon=x0, time=t0)
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             TEOS10 gsw
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import gsw
+
+pres = gsw.conversions.p_from_z(lev,lat)
+sa   = gsw.conversions.SA_from_SP(salt,pres,lon,lat)
+ct   = gsw.conversions.CT_from_pt(sa,temp)
+prho = gsw.density.sigma0(sa,ct)
+
+#-------
+#  temp[{time},{lev},{lat},{lon}]
+#  salt[{time},{lev},{lat},{lon}]
+
+lon1, lat1, pres = np.zeros((3,len(lev),len(lat),len(lon)))
+prho = np.zeros((len(time),len(lev),len(lat),len(lon)))
+
+for k in range(len(lev)):
+    for j in range(len(lat)):
+        lon1[k,j,:] = lon
+    for i in range(len(lon)):
+        lat1[k,:,i] = lat
+
+for i in range(len(lon)):
+    for j in range(len(lat)):
+        pres[:,j,i] = gsw.conversions.p_from_z(lev*(-1.),lat[j])
+
+for l in range(len(time)):
+    sa   = gsw.conversions.SA_from_SP(salt[l,:,:,:],pres,lon1,lat1)
+    ct   = gsw.conversions.CT_from_pt(sa,temp[l,:,:,:])
+    prho[l,:,:,:] = gsw.density.sigma0(sa,ct)
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Sympy
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+>>> from sympy import *
+>>> x,t,z,nu = symbols('x t z nu')
+>>> integrate(sin(x**2), (x, -oo, oo))
+sqrt(2)*sqrt(pi)/2
+
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+#}}}
+
+#             datetime
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+#   get year/month/day etc from timestamp
+
+# 1
+
+import netCDF4
+
+ncfile = netCDF4.Dataset('./foo.nc', 'r')
+time = ncfile.variables['time'] # do not cast to numpy array yet
+time_convert = netCDF4.num2date(time[:], time.units, time.calendar)
+
+# 2  (time must be in days)
+
+from datetime import date,datetime,timedelta
+
+idx = time.units.index('-')             #  find reference time
+iyear  = int(time.units[idx-4:idx])
+imonth = int(time.units[idx+1:idx+3])
+iday   = int(time.units[idx+4:idx+6])
+time_ref = date(iyear,imonth,iday)
+
+time2_0 = time_ref + timedelta(days=time2[0])
+
+print(time2_0.year)
+print(time2_0.month)
+print(time2_0.day)
+
+
+#   make labels for the time axis
+
+from datetime import date
+
+idx = time.units.index('-')             #  find reference time
+iyear  = int(time.units[idx-4:idx])
+imonth = int(time.units[idx+1:idx+3])
+iday   = int(time.units[idx+4:idx+6])
+time_ref = date(iyear,imonth,iday)
+
+ystrt=1945
+yend=2025
+dt = 10
+nt = int( (yend-ystrt+1)/dt ) + 1
+
+time_label1 = np.zeros(nt)
+time_label2 = []
+
+for i in range(nt):
+    tmp = date(ystrt+i*dt,1,1) - time_ref
+    time_label1[i] = tmp.days            #  # in days since time_ref
+    time_label2.append(str(ystrt+i*dt))  #  string for year
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             pywavelets
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import pywt
+
+scales = np.arange(1,50)       #  scale. Frequency depends on it
+wavelet_name = 'cmor2.0-1.0'   #  wavelet function in the form of 'cmorB-C.'
+                               #      cmor = Complex Morlet
+                               #      B = 2.0 (Torrence and Compo 1998, Table 1)
+                               #      C = 1.0 (Torrence and Compo 1998, p.63, after Eq.1).
+                               #      Note the frequency of the wavelet function is
+                               #        2*pi*C. For 2*pi*C to be about 6, C = 1.
+sampling_period = 0.2          #  sampling period of input time series
+coef, freq = pywt.cwt(data=invar, scales=scales, sampling_period=sampling_period, \
+                      wavelet=wavelet_name)
+power = np.abs(coef)**2        #  Torrence and Compo (1998, p.65) 
+
+for j in range(np.shape(power)[1]):
+    power[:,j] = power[:,j] *freq            #  Adjusted power, Liu et al. (2007)
+
+#  Check frequencies like
+#     % tmp1, tmp2 = np.max(freq), np.min(freq)
+#     % print(f'period1 = {per1:6.2f};  period2 = {per2:6.2f}')
+#  Adjust scales and 'C' in wavelet_name appropriately.
+
+#  Check properties of wavelet function
+#     % wavelet = pywt.ContinuousWavelet(wavelet_name)
+#     % print(wavelet)
+
+#  Get wavelet function
+#     % wavelet = pywt.ContinuousWavelet(wavelet_name)
+#     % psi, x = wavelet.wavefun()
+
+#   Obtain scales from frequency
+
+freq = np.fft.fftfreq(nt, d=1.0)
+positive = freq > 0
+freq = freq[positive]
+scales = pywt.frequency2scale(wavelet_name, freq)
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Cartopy
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+import cartopy
+import cartopy.crs as ccrs
+import cartopy.mpl.ticker as cticker
+
+# ------------------------------------------  Projection
+
+ctp_prj1 = ccrs.PlateCarree(central_longitude=180.)
+ctp_prj2 = ccrs.PlateCarree()
+
+# ------------------------------------------  Add projection to the map
+
+fig, ax1 = plt.subplots(2,1,subplot_kw={'projection': ctp_prj1})
+
+#                                             ... or
+
+fig = plt.figure(figsize=(6,6))
+ax1 = fig.add_axes([0.15, 0.6, 0.7, 0.3], projection=ctp_prj1)
+#                   left, bottom, width, height
+
+# -----------------------------------------  Make a contour map
+
+cs = ax1.contourf(lon,lat,var,transform=ctp_prj2)
+
+# -----------------------------------------  Add coastlines and land fill
+
+ax1.coastlines()
+ax1.add_feature(cartopy.feature.LAND, zorder=1, edgecolor='k')
+
+# -----------------------------------------  Add longitude labels
+
+ax1.set_extent([100.,300.,-30.,30.], crs=ctp_prj2)  #   lon/lat range (x0,x1,y0,y1)
+
+ax1.set_xticks(np.arange(120,301,60), crs=ccrs.PlateCarree())
+lon_formatter = cticker.LongitudeFormatter()
+ax1.xaxis.set_major_formatter(lon_formatter)
+
+# -----------------------------------------  Generate a blank map
+
+ax = plt.axes(projection=ccrs.PlateCarree())
+ax.coastlines()
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+
+#             Nio
+#{{{
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#////////////////////////////////////////////////
+
+#   Write
+
+import Nio
+
+f1 = Nio.open_file('out.nc', "w")
+
+f1.create_dimension('lon', nx)
+f1.create_dimension('lat', ny)
+f1.create_dimension('time',nt)
+
+var1 = f1.create_variable('lon', 'f',('lon',))
+var2 = f1.create_variable('lat', 'f',('lat',))
+var3 = f1.create_variable('time','d',('time',))
+var4 = f1.create_variable('taux','d',('time','lat','lon'))
+var5 = f1.create_variable('tauy','d',('time','lat','lon'))
+
+f1.variables['time'].units = time1.units
+
+f1.variables['lon'][:] = lon1
+f1.variables['lat'][:] = lat1
+f1.variables['time'][:] = time
+f1.variables['taux'][:,:,:] = taux
+f1.variables['tauy'][:,:,:] = tauy
+
+f1.close()
+
+#////////////////////////////////////////////////
+#\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+#}}}
+

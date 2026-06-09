@@ -1,0 +1,74 @@
+
+!  climatology/anomaly
+
+USE climatological_axes
+CANCEL DATA climatological_axes
+
+LET uwnd_of_interest = uwnd[T=15-jan-1983:15-jan-1991]
+LET uwnd_climatology = uwnd_of_interest[GT=month_reg@MOD]
+
+LET uwnd_anomaly = uwnd - uwnd_climatology[gt=uwnd@asn]
+
+!  mask
+
+LET ocean = if rose[d=etopo120,gxy=my_var] le 0 then 1
+
+define variable/title="var_ocean" var_ocean = ocean * my_var
+
+!  define grid
+define grid/like=u10d0 grd
+
+!  define axis based on a data
+def axis/depth/z/npoints=28/name=axden/from_data z[g=var,d=3]
+
+!  define array and axis
+let tmp={0,1,2}
+
+define axis/x my_axis = tmp
+
+!  daily climatology
+
+use climatological_axes
+cancel data climatological_axes
+
+DEFINE AXIS/T=0:365.2425/EDGES/NPOINTS=365/T0=1-JAN-0001/UNITS=DAYS/MODULO tdaily
+
+USE monthly_navy_winds
+DEFINE AXIS/T=16-JAN-1982:18-DEC-1992:1/UNITS=DAYS tnavydaily
+
+LET udaily = uwnd[GT=tnavydaily]
+
+LET dailyclim = udaily[GT=tdaily@mod]
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+!   plots
+!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+cancel mode logo
+
+!set mode METAFILE
+
+!set mode long_label
+!set mode latit_label
+
+set data "./***.nc"
+
+set region/x=30E:120E/y=20S:10N
+
+DEFINE VIEWPORT/XLIM=0.,0.9/YLIM=0.000,0.325 v1
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+set window/aspect=0.5
+
+set data 1
+set viewport v1
+shade/key/NoLabels/NoAxis sst
+
+LABEL/NoUser xpos, ypos, center, angle, size, text
+

@@ -1,0 +1,5 @@
+&namelist_example
+ character1 = "out.nc"
+ double1    = 1.0d1
+ integer1   = 1
+/

@@ -1,0 +1,81 @@
+! Convert a grads file to netcdf
+  cdo -f nc import_binary ht.ctl ht.nc
+
+! Calculation
+  cdo -expr,'var1=var*(-1.);var2=var3/3.' infile.nc outfile.nc
+
+! Map onto 360 x 180 grids (1 deg by 1 deg)
+  cdo remapbil,r360x180 infile.nc outfile.nc
+
+! Map infile.nc onto the grid of grid.nc  (weights.nc is generated)
+  cdo genbil,grid.nc infile.nc weights.nc
+  cdo remap,grid.nc,weights.nc  infile.nc infile_remapped.nc
+
+! Invert latitude
+  cdo invertlat infile.nc outfile.nc
+
+! Shift data in lon=(-180 to 180) to lon=(0 to 360)
+  cdo sellonlatbox,0,360,-90,90 infile.nc outfile.nc
+
+! Select level
+  cdo sellevel,1000. infile.nc outfile.nc
+
+! Select level index
+  cdo sellevidx,10 infile.nc outfile.nc
+
+! Vertical interpolation
+cdo intlevel,level=50,100,200 source_data.nc interpolated_data.nc
+
+! Mask
+  cdo -f nc -setmissval,0 -mul -eqc,0 maskfile.nc  infile.nc  tmp.nc
+  cdo -f nc -setmissval,-1e10  tmp.nc  outfile.nc
+
+! Set 0 to missing value and change it to -1e10
+  cdo setctomiss,0. -setmissval,-1e10 infile.nc outfile.nc
+
+! Merge two variables in different files
+  cdo merge infile1.nc infile2.nc  outfile.nc
+
+! Merge two time series
+  cdo mergetime infile1.nc infile2.nc  outfile.nc
+
+! Modify time axis
+  cdo -settunits,year -setreftime,0000-01-01,00:00 infile outfile
+  cdo -shifttime,-5months -shifttime,-10days infile outfile
+
+! Add time axis
+  cdo -f nc -setaxis,2000-01-01,12:00:00,1day infile.nc outfile.nc
+
+! Add time step
+  cdo setdate,2000-01-01 infile.nc outfile.nc
+
+! Select season
+  cdo select,season=JFMAM infile outfile
+
+! Select time step
+  cdo seltimestep,1/1200 infile.nc outfile.nc
+
+! Select a period of data
+  cdo seldate,2000-01-01T00:00:00,2010-12-31T23:59:59 infile.nc outfile.nc
+
+! Choose data at a time step
+  cdo seltimestep,100 infile.nc outfile.nc
+
+! Broadcast 1D data to 4D
+cdo enlarge,4d_data.nc 1d_data.nc 1d_data_enlarged.nc
+
+! Yearly average
+  cdo yearmean -selyear,2000/2018 infile outfile
+
+! NDJF mean
+  cdo yearmean -shifttime,-2mo -selmon,9,10,11,12 infile.nc outfile.nc
+
+! Various mean
+fldmean:  horizontal mean;  timmean:  time mean;  mermean:  meridional mean
+
+! Monthly climatology
+  cdo ymonmean infile.nc outfile.nc
+
+! Compute anomalies from monthly averages
+  cdo -ymonsub infile.nc -ymonmean infile.nc outfile.nc
+
