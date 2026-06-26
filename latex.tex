@@ -97,7 +97,7 @@ Or
   d + e &= f.
 \end{empheq}
 
-%==============    Matirx with indices =======================================
+%==============    Matrix with indices =======================================
 \usepackage{nicematrix}
 
 \begin{align}
@@ -115,6 +115,19 @@ Or
 \end{align}
 
 %=============================================================================
+%  biblatex
+
+\usepackage[
+  backend=biber,
+  style=apa
+]{biblatex}
+\addbibresource{references.bib}
+%  To update references, run "biber note4"
+%      \textcite{boyd2018}
+%      \parencite{boyd2018}
+%      \citeauthor{boyd2018} \citeyear{boyd2018}
+
+%==============    Matirx with indices =======================================
 
 \end{document}
 
