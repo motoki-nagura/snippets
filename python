@@ -52,9 +52,9 @@ tmp = ['xx_{}'.format(x) for x in range(1,5)]
 
 MODE = "b"
 
-X = { "a": a,
-      "b": b,
-      "c": c, }[MODE]
+X = { "a": 1.0,
+      "b": 2.0,
+      "c": 3.8, }[MODE]
 
 # --------------------------------------  Print format
 
@@ -67,27 +67,32 @@ from decimal import Decimal
 
 print('this is a tuple {0}'.format(thetuple))
 
-# --------------------------------------  Print array in format
-
-# To print the data in column :
+#
 
 for data in x:
-    print '{:9.3f}'.format(data)
+    print '{:9.3f}'.format(data)             # To print the data in column
 
-# To print the data in row : (don't forget import sys)
-
+import sys
 for data in x:
-    sys.stdout.write('{:9.3f}'.format(data))
+    sys.stdout.write('{:9.3f}'.format(data)) # To print the data in row
 
-# A real number array to a string array
-
-str_arr = [f"{x:.2f}" for x in arr]
-
-# -------------------------------------- 5e-6 ---> "5 x 10^-6"
+str_arr = [f"{x:.2f}" for x in arr]          # A real number array to a string array
 
 val = 5e-6
 m, e = f"{val:.2e}".split("e")
-string = rf"{float(m)} $\times$ 10$^{{{int(e)}}}$"
+string = rf"{float(m)} $\times$ 10$^{{{int(e)}}}$"  #   5e-6 ---> "5 x 10^-6"
+
+print(f"{1.0e-5: .1e}")                      # Same width for both polarities
+print(f"{-1.0e-5: .1e}")
+# 1.0e-05
+#-1.0e-05
+
+{x:5}	    5 letters, right aligned
+{x:<5}	  5 letters, left aligned
+{x:^5}	  5 letters, center aligned
+{x:>5}	  5 letters, right aligned (explicit)
+{x:05}	  5 letters, pad zeros
+{x:8.2f}	8 letters, a floating-point number with two decimal places
 
 # --------------------------------------  Create or append/add to an array
 
@@ -101,33 +106,32 @@ else:
 
 # --------------------------------------   for loop
 
+  #   simple loop
 for i in range(nx):
     (do what you want)
 
-# --------------------------------------  enumerate arrays
+  #   enumerate arrays
 for i, arr in enumerate([A, B]):
     #   arr = A for i = 0
     #   arr = B for i = 1
 
-# --------------------------------------  enumerate a pair of arrays
-for i, (arr1, arr2) in enumerate(zip((A,B),(C,D))):
-    #  arr1 = A and arr2 = C for i = 0
-    #  arr1 = B and arr2 = D for i = 0
-
-# --------------------------------------  zip
+  #   zip arrays
 for v1, v2, v3  in zip((A, B), (C, D), (E,F)):
     #  v1,v2,v3 = A,C,E for the first loop,
     #  v1,v2,v3 = B,D,F for the second
 
-# --------------------------------------  enumerate an zip
+  #   enumerate a pair of arrays
+for i, (arr1, arr2) in enumerate(zip((A,B),(C,D))):
+    #  arr1 = A and arr2 = C for i = 0
+    #  arr1 = B and arr2 = D for i = 0
 
+  #   enumerate and zip
 for i, (a, b) in enumerate(zip(A, B)):
     print(i, a, b)
     #     "a" and "b" are the elements of A and B at position i.
     #     zip(A, B) produces pairs (A[0], B[0]), (A[1], B[1]), ...
 
-# --------------------------------------  zip() + unpack (*)
-
+  #   zip() + unpack (*)
 for iω1, iω2 in zip(*iω):
 #   For iω = [[1, 2, 3],
 #             [10, 20, 30]],
@@ -136,56 +140,26 @@ for iω1, iω2 in zip(*iω):
 #         iω1=2  iω2=20  (second loop)
 #         iω1=3  iω2=30  (third loop)
 
+# --------------------------------------   if statement
+
+if age >= 18 and has_ticket:
+
+if is_member or has_coupon:
+
+if (age >= 18 and has_ticket) or is_vip:
+
+if 80 <= score < 90:
+
+if string in ("A", "B"):
+
+if string in {"A", "B", "C", "D"}:
+
 # --------------------------------------  Raise error and stop
 
 raise ValueError("Invalid input!")
 
-# --------------------------------------  Typical script structure
-#!/usr/bin/env python3
-"""
-Module description.
-
-Explain what the script does.
-"""
-
-# 1. Standard library imports
-import sys
-import os
-
-# 2. Third-party imports
-# import requests
-
-# 3. Local application imports
-# from mymodule import something
-
-# 4. Constants
-DEFAULT_PATH = "/tmp/data"
-
-# 5. Classes (optional)
-class ExampleProcessor:
-    def __init__(self, path):
-        self.path = path
-
-    def process(self):
-        print(f"Processing data in {self.path}")
-
-# 6. Functions
-def load_data(path):
-    """Load data from a path."""
-    print(f"Loading data from {path}")
-    return []
-
-def main():
-    """Main program logic."""
-    path = DEFAULT_PATH
-    data = load_data(path)
-
-    processor = ExampleProcessor(path)
-    processor.process()
-
-    print("Finished")
-
-# 7. Script entry point
+# --------------------------------------  Script entry point
+#
 if __name__ == "__main__":
     sys.exit(main())
 
