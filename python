@@ -211,6 +211,17 @@ p1, p2 = 10., 100.
 test1 = test_class(p1)     #  set p1
 result = test1.func(p2)    #  compute p1 + p2 (p1 is set beforehand)
 
+# -------------------------------------  Get the work path
+
+import sys
+from pathlib import Path
+import os
+
+MY_WORK_ROOT = str( Path(os.environ["MY_WORK_ROOT"]) )  #  Get the environment variable
+
+current_dir = os.getcwd()                      #  Get current directory path
+OUT_DIR = current_dir.replace("code", "data")  #  Replace "code" with "data"
+
 #////////////////////////////////////////////////
 #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 #}}}
