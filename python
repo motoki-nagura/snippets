@@ -170,20 +170,31 @@ import numpy as np
 
 @dataclass(slots=True)
 class Sample:
-    id: int
-    feature: np.ndarray
-    label: str
+    # integer
+    count: int = 0
 
-sample = Sample(
-    id=1,
-    feature=np.array([0.2, 1.5, -0.3]),
-    label="first sample",
+    # float
+    value: float = 0.0
+
+    # string
+    name: str = ""
+
+    # float list
+    scores: list[float] = field(default_factory=list)
+
+    # numpy array
+    array: np.ndarray = field(default_factory=lambda: np.array([]))
+
+s = Sample(
+    count=1,
+    value=3.14,
+    name="Alice",
+    scores=[1.2, 2.3],
+    array=np.array([1, 2, 3])
 )
 
-print(sample)
-#  Sample(id=1, feature=array([ 0.2,  1.5, -0.3]), label="first sample")
-print(sample.feature.shape)
-#  (3,)
+print(s)
+#  Sample(count=0, value=0.0, name='', scores=[], array=array([], dtype=float64))
 
 #  @dataclass(frozen=True)      Cannot be overwritten
 
