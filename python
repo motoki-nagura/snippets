@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
 # --------------------------------------  dataclass
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import numpy as np
 
 @dataclass(slots=True)
